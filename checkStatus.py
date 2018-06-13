@@ -70,7 +70,6 @@ def checkStatus():
 			sendEmail(headerCase, caseinfo)
 			SENT = True
 			STOP = True
-			startStream()
 
 		elif SENT:
 			print("Decided")
@@ -90,6 +89,6 @@ def checkStatus():
 	if STOP:
 		print("stop")
 		t.cancel()
-
+		startStream()
 checkStatus()
 
