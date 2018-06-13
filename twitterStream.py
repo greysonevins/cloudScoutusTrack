@@ -71,10 +71,10 @@ def startStream():
 					with open("statuesStream.txt", "a") as myfile:
 						myfile.write(data + "\n")
 						Collected+=1
-						if Collected%10000 == 0:
+						if Collected%1000 == 0:
 							msg = "Collected {} tweets so far".format(Collected)
-							sendEmail(msg, msg)
 							print(msg)
+							sendEmail(msg, msg)
 				else:
 					with open("statuesStream.txt", "w") as myfile:
 						myfile.write(data + "\n")
@@ -109,5 +109,9 @@ def startStream():
 	myStream = tweepy.Stream(auth = api.auth, listener=myStreamListener)
 	myStream.filter(track=TRACKED_WORDS, languages=['en'],stall_warnings=True, async=True)
 
-startStream()
+def main():
+	startStream()
+
+if __name__ == "__main__":
+	main()
 

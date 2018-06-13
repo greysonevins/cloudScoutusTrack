@@ -5,11 +5,11 @@ import requests
 import re
 from emailDecision import sendEmail
 from datetime import datetime
-from twitterStream import startStream
+import twitterStream
 
 URL = "https://www.supremecourt.gov/opinions/slipopinion/17"
 
-CASE = "Trump v. Hawaii"
+CASE = "Washington v. United States"
 t = None
 SENT = False
 DECIDED = False
@@ -48,7 +48,7 @@ class DecisionInfo:
 
 
 def checkStatus():
-	global DECIDED, SENT, LASTDECIDED, STOP
+	global DECIDED, SENT, LASTDECIDED, STOP, t
 	try:
 		res = requests.get(URL)
 
@@ -73,22 +73,27 @@ def checkStatus():
 
 		elif SENT:
 			print("Decided")
+			pass
 		else:
 			print("\nNot Decided yet, As of: ")
 			print(str(datetime.now()), "\n")
 			print("Last Decided Case was: ", LASTDECIDED)
-
+			pass
 
 	except Exception as e:
 		print(e)
+		newStatus = e.encode('ascii', 'ignore').decode('ascii')
+		sendEmail("Exception Raised on url track Court", newStatus)
 		pass
 
 
 	t = threading.Timer(30, checkStatus)
 	t.start()
 	if STOP:
-		print("stop")
+		print("stop search")
 		t.cancel()
-		startStream()
-checkStatus()
+		twitterStream.startStream()
+
+t = threading.Timer(30, checkStatus)
+t.start()
 
