@@ -2,10 +2,21 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+*.shh
+.bash_history
+.bash_logout
+.bashrc
+.cache/
+.config/
+.local/
+.profile
+.python_history
+.ssh/
+.viminfo
+__pycache__/
 # C extensions
 *.so
-
+*.txt
 # Distribution / packaging
 .Python
 build/
