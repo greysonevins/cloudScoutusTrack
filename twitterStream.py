@@ -84,30 +84,26 @@ def startStream():
 				return True
 
 				def on_disconnect(self, notice):
-					newDisc = notice.encode('ascii', 'ignore').decode('ascii')
-					sendEmail("Error with Twitter Disconnect", newDisc)
+					sendEmail("Error with Twitter Disconnect", notice)
 					print(notice)
 					return
 				def on_warning(self, notice):
-					newNotice = notice.encode('ascii', 'ignore').decode('ascii')
-					sendEmail("Warning Triggered", newNotice)
+					sendEmail("Warning Triggered", notice)
 					print(notice)
 					return
 				def on_error(self, status_code):
-					newStatus = status_code.encode('ascii', 'ignore').decode('ascii')
-					sendEmail("Error with Twitter Stream", newStatus)
+					sendEmail("Error with Twitter Stream", status_code)
 					print(status_code)
 					if status_code == 420:
 						return False
 				def on_exception(self, exception):
-					newException = newException.encode('ascii', 'ignore').decode('ascii')
-					sendEmail("Error with Twitter Exception Thrown", newException)
+					sendEmail("Error with Twitter Exception Thrown", exception)
 					print(exception)
 					return
 
 	myStreamListener = MyStreamListener()
 	myStream = tweepy.Stream(auth = api.auth, listener=myStreamListener)
-	myStream.filter(track=TRACKED_WORDS, languages=['en'],stall_warnings=True, async=True)
+	myStream.filter(track=TRACKED_WORDS, languages=['esdfsxxxn'],stall_warnings=True, async=True)
 
 def main():
 	startStream()

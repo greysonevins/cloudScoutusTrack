@@ -5,7 +5,15 @@ import os
 def sendEmail(header, text):
     TO = os.environ["EMAIL"]
     SUBJECT =  header
-    TEXT = text
+    try:
+        english = isEnglish(text)
+        if english:
+            TEXT = text
+        else:
+            TEXT = text.encode('ascii', 'ignore').decode('ascii')
+
+    except:
+        TEXT = str(text)
 
     gmail_sender = os.environ["EMAIL"]
     gmail_passwd = os.environ["GMAIL_PASS"]
@@ -28,3 +36,10 @@ def sendEmail(header, text):
 
     server.quit()
 
+def isEnglish(s):
+    try:
+        s.encode('ascii')
+    except UnicodeEncodeError:
+        return False
+    else:
+        return True

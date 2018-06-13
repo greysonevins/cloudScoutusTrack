@@ -9,7 +9,7 @@ import twitterStream
 
 URL = "https://www.supremecourt.gov/opinions/slipopinion/17"
 
-CASE = "Washington v. United States"
+CASE = "Trump v. Hawaii"
 t = None
 SENT = False
 DECIDED = False
@@ -82,8 +82,7 @@ def checkStatus():
 
 	except Exception as e:
 		print(e)
-		newStatus = e.encode('ascii', 'ignore').decode('ascii')
-		sendEmail("Exception Raised on url track Court", newStatus)
+		sendEmail("Exception Raised on url track Court", e)
 		pass
 
 
