@@ -17,6 +17,7 @@ __pycache__/
 # C extensions
 *.so
 *.txt
+*.py.save
 # Distribution / packaging
 .Python
 build/

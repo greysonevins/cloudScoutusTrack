@@ -6,6 +6,12 @@ import re
 from emailDecision import sendEmail
 from datetime import datetime
 import twitterStream
+import google.cloud.logging
+client = google.cloud.logging.Client().from_service_account_json(os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
+
+client.setup_logging()
+
+import logging
 
 URL = "https://www.supremecourt.gov/opinions/slipopinion/17"
 
@@ -75,6 +81,7 @@ def checkStatus():
 			print("Decided")
 			pass
 		else:
+			logging.info("Last logged Case: {}".format( LASTDECIDED))
 			print("\nNot Decided yet, As of: ")
 			print(str(datetime.now()), "\n")
 			print("Last Decided Case was: ", LASTDECIDED)
@@ -95,4 +102,3 @@ def checkStatus():
 
 t = threading.Timer(30, checkStatus)
 t.start()
-
