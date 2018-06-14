@@ -68,7 +68,6 @@ def checkStatus():
 		if DECIDEDINX > 1:
 			decidedList = caseDecisions[0:DECIDEDINX]
 
-		print(decidedList)
 
 
 		if CASE != LASTDECIDED:
@@ -78,7 +77,6 @@ def checkStatus():
 
 
 			else:
-				print("here !!!")
 				[sendCaseEmail(case) for case in decidedList]
 
 
@@ -86,6 +84,7 @@ def checkStatus():
 
 	except Exception as e:
 		print(e)
+		logging.warn(e)
 		sendEmail("Exception Raised on url track Court", e)
 		pass
 
@@ -94,6 +93,7 @@ def checkStatus():
 	t.start()
 	if STOP:
 		print("stop search")
+		logging.warn("Stop search")
 		t.cancel()
 
 def sendCaseEmail(case):

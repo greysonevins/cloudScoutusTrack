@@ -90,6 +90,7 @@ def checkStatus():
 	except Exception as e:
 		print(e)
 		sendEmail("Exception Raised on url track Court", e)
+		logging.warn(e)
 		pass
 
 
