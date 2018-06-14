@@ -19,7 +19,7 @@ CASE = ""
 t = None
 SENT = False
 DECIDED = False
-LASTDECIDED = ""
+LASTDECIDED = "Washington v. United States"
 STOP = False
 
 class DecisionInfo:
@@ -62,22 +62,27 @@ def checkStatus():
 
 
 		caseDecisions = [DecisionInfo(a) for a in caseSoup.findAll('a', href=re.compile(r'^/opinions/17pdf?'))]
+		DECIDEDINX= next((index for index, dictItem in enumerate(caseDecisions) if LASTDECIDED == dictItem.decision), None)
+		decidedList = []
 
-		LASTDECIDED, case = caseDecisions[0].decision, caseDecisions[0]
-		os.system('clear')
+		if DECIDEDINX > 1:
+			decidedList = caseDecisions[0:DECIDEDINX]
+
+		print(decidedList)
+
 
 		if CASE != LASTDECIDED:
-			caseinfo =  case.information + '\n \n' + case.url + \
-								'\n Time Found: \n' + case.time
-			print("DECIDED")
-			CASE = LASTDECIDED
-			headerCase = "Decision Made for {} Made".format(CASE)
-			logging.info(headerCase)
-			logging.info(caseinfo)
-			sendEmail(headerCase, caseinfo)
-			if case == "Trump v. Hawaii":
-                        	STOP = True
 
+			if not decidedList:
+				sendCaseEmail(caseDecisions[0])
+
+
+			else:
+				print("here !!!")
+				[sendCaseEmail(case) for case in decidedList]
+
+
+		LASTDECIDED, CASE = caseDecisions[0].decision, caseDecisions[0].decision
 
 	except Exception as e:
 		print(e)
@@ -90,6 +95,18 @@ def checkStatus():
 	if STOP:
 		print("stop search")
 		t.cancel()
+
+def sendCaseEmail(case):
+	global CASE, STOP
+	caseinfo =  case.information + '\n \n' + case.url + \
+						'\n Time Found: \n' + case.time
+	print("DECIDED")
+	headerCase = "Decision Made for {} Made".format(case.decision)
+	logging.info(headerCase)
+	logging.info(caseinfo)
+	sendEmail(headerCase, caseinfo)
+	if case == "Trump v. Hawaii":
+					STOP = True
 
 t = threading.Timer(100, checkStatus)
 t.start()
