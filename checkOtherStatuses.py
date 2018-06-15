@@ -64,6 +64,7 @@ def checkStatus():
 		caseDecisions = [DecisionInfo(a) for a in caseSoup.findAll('a', href=re.compile(r'^/opinions/17pdf?'))]
 		DECIDEDINX= next((index for index, dictItem in enumerate(caseDecisions) if LASTDECIDED == dictItem.decision), None)
 		decidedList = []
+		os.system('clear')
 
 		if DECIDEDINX > 1:
 			decidedList = caseDecisions[0:DECIDEDINX]
