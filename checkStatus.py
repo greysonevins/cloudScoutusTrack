@@ -94,12 +94,12 @@ def checkStatus():
 		pass
 
 
-	t = threading.Timer(30, checkStatus)
+	t = threading.Timer(45, checkStatus)
 	t.start()
 	if STOP:
 		print("stop search")
 		t.cancel()
 		twitterStream.startStream()
 
-t = threading.Timer(30, checkStatus)
+t = threading.Timer(45, checkStatus)
 t.start()
