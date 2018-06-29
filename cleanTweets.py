@@ -36,20 +36,19 @@ def getTweets(filename):
                     tweet2["text"] = tweet["extended_tweet"]
                 else:
                     tweet2["text"] = tweet["text"]
+                tweet2["tweet_id"] = tweet["id"]
                 tweet2["ids"] = tweet["user"]["id"]
                 tweet2["created_at"] = tweet["created_at"]
                 tweet2["following_count"] = tweet["user"]["friends_count"]
                 tweet2["followers_count"] = tweet["user"]["followers_count"]
                 tweet2["screen_name"] = tweet["user"]["screen_name"]
                 tweet2["is_retweet"] = "retweeted_status" in tweet
-                tweet2["repy_to"] = "in_reply_to_screen_name" in tweet
+                tweet2["reply_to"] = tweet["in_reply_to_screen_name"] != None
                 tweet2["verfied_user"] = tweet["user"]["verified"]
 
                 yield tweet2
         except Exception:
             continue
-
-#fileNames = ["twitter_data.txt", "twitter_data.txt","twitter_data.txt","twitter_data.txt","twitter_data.txt", "twitter_data.txt", "twitter_data.txt" ,"twitter_data.txt","twitter_data.txt","twitter_data.txt", "twitter_data.txt", "twitter_data.txt"]
 
 tweets = []
 for files in listFiles:
