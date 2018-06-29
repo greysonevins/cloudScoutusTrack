@@ -6,6 +6,7 @@ import re
 from emailDecision import sendEmail
 from datetime import datetime
 import twitterStream
+import time
 import google.cloud.logging
 client = google.cloud.logging.Client().from_service_account_json(os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
 
@@ -15,11 +16,11 @@ import logging
 
 URL = "https://www.supremecourt.gov/opinions/slipopinion/17"
 
-CASE = ""
+CASE = "Cox v. United States"
 t = None
 SENT = False
 DECIDED = False
-LASTDECIDED = "Washington v. United States"
+LASTDECIDED = "Cox v. United States"
 STOP = False
 
 class DecisionInfo:
@@ -62,9 +63,11 @@ def checkStatus():
 
 
 		caseDecisions = [DecisionInfo(a) for a in caseSoup.findAll('a', href=re.compile(r'^/opinions/17pdf?'))]
-		DECIDEDINX= next((index for index, dictItem in enumerate(caseDecisions) if LASTDECIDED == dictItem.decision), None)
+		print(len(caseDecisions))
+		DECIDEDINX= next((index for index, dictItem in enumerate(caseDecisions) if LASTDECIDED == dictItem.decision), -1)
+		LASTDECIDED = caseDecisions[0].decision
 		decidedList = []
-		os.system('clear')
+		# os.system('clear')
 
 		if DECIDEDINX > 1:
 			decidedList = caseDecisions[0:DECIDEDINX]
@@ -85,12 +88,13 @@ def checkStatus():
 
 	except Exception as e:
 		print(e)
+		time.sleep(45)
 		logging.warn(e)
-		sendEmail("Exception Raised on url track Court", e)
+		sendEmail("Exception Raised on Check Other url track Court", e)
 		pass
 
 
-	t = threading.Timer(100, checkStatus)
+	t = threading.Timer(45, checkStatus)
 	t.start()
 	if STOP:
 		print("stop search")
@@ -109,5 +113,5 @@ def sendCaseEmail(case):
 	if case == "Trump v. Hawaii":
 					STOP = True
 
-t = threading.Timer(100, checkStatus)
+t = threading.Timer(45, checkStatus)
 t.start()
