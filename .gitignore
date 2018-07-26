@@ -1,3 +1,10 @@
+*.html
+*mallet*
+*gensim*
+*.png
+*.h5
+*.csv
+*.sh
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

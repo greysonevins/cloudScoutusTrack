@@ -7,6 +7,7 @@ from emailDecision import sendEmail
 from datetime import datetime
 import twitterStream
 import google.cloud.logging
+import time
 client = google.cloud.logging.Client().from_service_account_json(os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
 
 client.setup_logging()
@@ -89,6 +90,7 @@ def checkStatus():
 
 	except Exception as e:
 		print(e)
+		time.sleep(3)
 		sendEmail("Exception Raised on url track Court", e)
 		logging.warn(e)
 		pass

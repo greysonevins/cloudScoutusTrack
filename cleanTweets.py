@@ -33,7 +33,7 @@ def getTweets(filename):
             }
             if tweet['text']:
                 if "extended_tweet" in tweet:
-                    tweet2["text"] = tweet["extended_tweet"]
+                    tweet2["text"] = tweet["extended_tweet"]["full_text"]
                 else:
                     tweet2["text"] = tweet["text"]
                 tweet2["tweet_id"] = tweet["id"]
